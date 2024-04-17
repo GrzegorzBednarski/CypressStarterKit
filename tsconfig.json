@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "target": "es5",
+    "lib": ["es2021", "dom"],
+    "types": ["cypress", "node"]
+  },
+  "include": ["**/*.ts", "cypress.config.js"]
+}
