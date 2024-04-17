@@ -1,6 +1,10 @@
 {
   "devDependencies": {
     "cypress": "^13.7.3",
+    "prettier": "^3.2.5",
     "typescript": "^5.4.3"
+  },
+  "scripts": {
+    "cy:prettier": "prettier --write '**/*.{js,ts}'"
   }
 }

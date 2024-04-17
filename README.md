@@ -2,6 +2,15 @@
 Cypress framework with pre-configured plugins
 
 # Configuration
+### Prettier - [documentation](https://prettier.io/docs/en/options.html)
+Code formatter tool. You can change default configuration in `.prettierrc` file.
+
+Prettier is fired automatically before each commit (check `Lint-staged` and `Husky` sections).
+
+If you want to run it manually, type (in cypress main directory):
+ ```sh
+ npm run cy:prettier
+ ```
 ### TypeScript - [documentation](https://www.typescriptlang.org/)
 This project utilizes TypeScript, which adds static typing to JavaScript and helps in maintaining clean and understandable code.
 
