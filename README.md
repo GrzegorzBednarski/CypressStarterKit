@@ -2,6 +2,15 @@
 Cypress framework with pre-configured plugins
 
 # Configuration
+### ESLint - [documentation](https://eslint.org/docs/user-guide/configuring/rules)
+Linter used for static code analysis. You can change default configuration in `.eslintrc` file.
+
+Prettier is fired automatically before each commit (check `Lint-staged` and `Husky` sections).
+
+If you want to run it manually, type (in cypress main directory):
+ ```sh
+ npm run cy:eslint
+ ```
 ### Prettier - [documentation](https://prettier.io/docs/en/options.html)
 Code formatter tool. You can change default configuration in `.prettierrc` file.
 
