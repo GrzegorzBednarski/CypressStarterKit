@@ -11,6 +11,10 @@ If you want to run it manually, type (in cypress main directory):
  ```sh
  npm run cy:eslint
  ```
+### Lint-staged - [documentation](https://github.com/okonet/lint-staged)
+This tool runs a set of predefined actions only on files that have been changed and staged in Git before a commit. This ensures that only the changes you've made and are about to commit are checked and processed by the linters and formatters, helping to keep the codebase clean and consistent.
+
+We are using it to run eslint & prettier (check package.json file, lint-staged section)
 ### Prettier - [documentation](https://prettier.io/docs/en/options.html)
 Code formatter tool. You can change default configuration in `.prettierrc` file.
 
