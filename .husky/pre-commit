@@ -1,0 +1,14 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+root_dir=$(pwd)
+# To add more packages, simply append them below, separated by spaces. For example: packages=("package1" "package2" "package3")
+packages=("./")
+
+for package in ${packages[@]};
+do
+  cd "$root_dir/$package" || exit
+  echo "Starting lint-staged for: "
+  pwd
+  npx lint-staged
+done

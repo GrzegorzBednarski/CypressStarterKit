@@ -9,13 +9,15 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-cypress": "^2.15.2",
     "eslint-plugin-import": "^2.29.1",
+    "husky": "^9.0.11",
     "lint-staged": "^15.2.2",
     "prettier": "^3.2.5",
     "typescript": "^5.4.3"
   },
   "scripts": {
     "cy:eslint": "eslint **/*.{js,ts} --fix",
-    "cy:prettier": "prettier --write '**/*.{js,ts}'"
+    "cy:prettier": "prettier --write '**/*.{js,ts}'",
+    "prepare": "husky"
   },
   "lint-staged": {
     "**/*.{js,ts}": [
