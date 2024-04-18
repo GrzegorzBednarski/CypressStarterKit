@@ -215,6 +215,23 @@ The `.username` and `.password` access the `username` and `password` properties 
 
 `Cypress.env('api-key')` returns the value of the `api-key` from the environment configuration.
 
+### Paths
+We can store all needed paths to pages that we will use during our tests in `data/paths.ts` file.
+
+```ts
+export const PAGES = {
+  HOMEPAGE: '/',
+  ABOUT: '/about-us',
+};
+```
+Then use it in our test-spec file e.g.
+```ts
+import { PAGES } from '../../data/paths';
+//...
+    cy.visit(PAGES.HOMEPAGE);
+//...
+```
+
 # Knowledge Base
 
 [Chai assertions](https://www.chaijs.com/api/bdd/)
