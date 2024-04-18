@@ -185,6 +185,21 @@ For more information about TypeScript in Cypress, see [Cypress & TypeScript](htt
 
 # Usage
 
+### iFrames
+We are using [cypress-iframe](https://gitlab.com/kgroat/cypress-iframe) plugin.
+
+Sample usage:
+```ts
+cy.frameLoaded('#iFrameID');
+    cy.enter('#iFrameID').then(getBody => {
+        getBody().find('#sampleInput')
+            .type('name');
+        getBody().find('#sampleButton')
+            .click();
+        getBody().percySnapshot('Snapshot_Name');
+    })
+```
+
 ### Passwords (Environment variables)
 In this project, we use environment variables to manage sensitive data, such as usernames, passwords, and API keys. 
 These values are stored in the environment configuration files (see the `Environment files` section for more details) and can be accessed via `Cypress.env()`.
@@ -199,3 +214,7 @@ In these examples, `Cypress.env('admin')` returns the `admin` object from the en
 The `.username` and `.password` access the `username` and `password` properties of this object. 
 
 `Cypress.env('api-key')` returns the value of the `api-key` from the environment configuration.
+
+# Knowledge Base
+
+[Chai assertions](https://www.chaijs.com/api/bdd/)

@@ -27,5 +27,8 @@
       "prettier --write",
       "eslint --fix"
     ]
+  },
+  "dependencies": {
+    "cypress-iframe": "^1.0.1"
   }
 }
