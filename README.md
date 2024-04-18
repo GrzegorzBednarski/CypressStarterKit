@@ -185,6 +185,37 @@ For more information about TypeScript in Cypress, see [Cypress & TypeScript](htt
 
 # Usage
 
+### Cookies
+We can open pages with some predefined cookies.
+First define cookie in `data/cookies.ts`
+Sample cookies.ts file:
+```ts
+export const COOKIE_CONSENT: Cypress.Cookie = {
+    name: 'OptanonAlertBoxClosed',
+    value: '2023-03-27T15:33:07.230Z',
+    path: '/',
+    domain: '.www.vml.com',
+    httpOnly: false,
+    secure: false,
+};
+```
+Test usage:
+```ts
+import { COOKIE_CONSENT } from '../../data/cookies';
+cy.setCookies([COOKIE_CONSENT]);
+cy.visit(PAGES.COMPONENTS);
+```
+
+### Filtering out console errors
+To filter out specific console error, just paste code below into `support/e2e.ts` file.
+
+```ts
+Cypress.on(
+'uncaught:exception',
+err => !(err.message.includes('Sample error text') || err.message.includes('Another error text')),
+);
+```
+
 ### iFrames
 We are using [cypress-iframe](https://gitlab.com/kgroat/cypress-iframe) plugin.
 
@@ -229,6 +260,30 @@ Then use it in our test-spec file e.g.
 import { PAGES } from '../../data/paths';
 //...
     cy.visit(PAGES.HOMEPAGE);
+//...
+```
+### Selectors
+We can store all selectors used in our tests in `data/selectors.ts` file.
+
+```ts
+export const COOKIE_BANNER = {
+  ACCEPT_ALL_COOKIES_BUTTON: '#onetrust-accept-btn-handler',
+  COOKIE_BANNER: '#onetrust-banner-sdk',
+};
+
+export const NAVIGATION = {
+  WT_LOGO: '.wt-logo',
+};
+```
+Then use it in our test-spec file e.g.
+```ts
+//import only sections that you will use in specific test-spec
+import { COOKIE_BANNER, NAVIGATION } from '../../data/selectors';
+//...
+     cy.get(NAVIGATION.WT_LOGO)
+        .should('be.visible');
+     cy.get(COOKIE_BANNER.COOKIE_BANNER)
+        .should('be.visible');
 //...
 ```
 

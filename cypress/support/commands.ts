@@ -1,25 +1,36 @@
-// ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+// eslint-disable-next-line @typescript-eslint/no-namespace
+declare namespace Cypress {
+  interface Chainable {
+    /**
+     * Yields window with opened url with given cookies
+     *
+     * @param {string} url Page URL
+     * @param {Array<Cypress.Cookie>} cookies List of cookies to add
+     * @returns {Chainable<Window>} The Chainable object representing the window
+     * @memberof Chainable
+     * @example
+     *    cy.visitWithCookies("www.example.com", [COOKIE_1, COOKIE_2]);
+     */
+    visitWithCookies(
+      url: string,
+      cookies: Array<Cypress.Cookie>,
+    ): Chainable<Window>;
+  }
+}
+
+Cypress.Commands.add(
+  'visitWithCookies',
+  (url: string, cookies: Array<Cypress.Cookie>) => {
+    cookies.forEach(cookie => {
+      cy.setCookie(cookie.name, cookie.value, {
+        path: cookie.path,
+        domain: cookie.domain,
+        secure: cookie.secure,
+        httpOnly: cookie.httpOnly,
+        expiry: cookie.expiry,
+        sameSite: cookie.sameSite,
+      });
+    });
+    cy.visit(url);
+  },
+);
