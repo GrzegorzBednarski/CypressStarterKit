@@ -10,3 +10,7 @@ node_modules/
 
 # Reports
 build/
+
+# Environment variables
+cypress/config/environments/*
+!cypress/config/environments/.*

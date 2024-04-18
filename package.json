@@ -9,6 +9,7 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-cypress": "^2.15.2",
     "eslint-plugin-import": "^2.29.1",
+    "fs-extra": "^11.2.0",
     "husky": "^9.0.11",
     "lint-staged": "^15.2.2",
     "prettier": "^3.2.5",
@@ -17,12 +18,14 @@
   "scripts": {
     "cy:eslint": "eslint **/*.{js,ts} --fix",
     "cy:prettier": "prettier --write '**/*.{js,ts}'",
-    "prepare": "husky"
+    "cy:open:prod": "npx cypress open --env environmentName=prod",
+    "cy:run:prod": "npx cypress run --env environmentName=prod",
+    "cy:run:functional:prod": "cypress run --spec 'cypress/e2e/functional/**/*' --env environmentName=prod"
   },
   "lint-staged": {
     "**/*.{js,ts}": [
       "prettier --write",
-      "eslint --fix --debug"
+      "eslint --fix"
     ]
   }
 }
