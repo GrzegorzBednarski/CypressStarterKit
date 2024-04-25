@@ -1,7 +1,5 @@
-/* eslint-disable import/no-extraneous-dependencies */
 const { defineConfig } = require('cypress');
 const fse = require('fs-extra');
-/* eslint-enable import/no-extraneous-dependencies */
 
 module.exports = defineConfig({
   e2e: {
@@ -17,11 +15,39 @@ module.exports = defineConfig({
     },
     chromeWebSecurity: false,
     env: {},
-    // TODO - remove eslint-disable after adding events
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     setupNodeEvents(on, config) {
       on('before:browser:launch', () => {
         fse.removeSync('build/');
+      });
+
+      on('task', {
+        log(message) {
+          console.log(message);
+          return null;
+        },
+        table(message) {
+          console.table(message);
+          return null;
+        },
+        saveAxeResultsToFile({ data, url }) {
+          const reportPath = 'build/axe/axe-report.json';
+          fse.readJson(reportPath, (err, jsonData) => {
+            if (err && err.code !== 'ENOENT') throw err;
+
+            const updatedData = jsonData || [];
+            updatedData.push({ url, violations: data });
+
+            fse.outputFile(
+              reportPath,
+              JSON.stringify(updatedData, null, 2),
+              writeErr => {
+                if (writeErr) throw writeErr;
+                console.log(`***** Report updated: ${reportPath} *****`);
+              },
+            );
+          });
+          return null;
+        },
       });
 
       const environmentName = config.env.environmentName || 'local';

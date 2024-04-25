@@ -1,8 +1,11 @@
 {
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^7.7.0",
-    "@typescript-eslint/parser": "^7.7.0",
-    "cypress": "^13.7.3",
+    "@typescript-eslint/eslint-plugin": "^7.7.1",
+    "@typescript-eslint/parser": "^7.7.1",
+    "axe-core": "^4.9.0",
+    "cypress": "^13.8.1",
+    "cypress-axe": "^1.5.0",
+    "cypress-real-events": "^1.12.0",
     "eslint": "8.57.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^18.0.0",
@@ -20,6 +23,7 @@
     "cy:prettier": "prettier --write '**/*.{js,ts}'",
     "cy:open:prod": "npx cypress open --env environmentName=prod",
     "cy:run:prod": "npx cypress run --env environmentName=prod",
+    "cy:run:accessibility:prod": "cypress run --spec 'cypress/e2e/accessibility/**/*' --env environmentName=prod",
     "cy:run:functional:prod": "cypress run --spec 'cypress/e2e/functional/**/*' --env environmentName=prod"
   },
   "lint-staged": {

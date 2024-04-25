@@ -3,7 +3,7 @@
     "baseUrl": "./",
     "target": "es5",
     "lib": ["es2021", "dom"],
-    "types": ["cypress", "node"]
+    "types": ["cypress", "node", "cypress-real-events", "cypress-axe"]
   },
   "include": ["**/*.ts", "cypress.config.js"]
 }

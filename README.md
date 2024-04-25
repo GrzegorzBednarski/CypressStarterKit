@@ -185,6 +185,67 @@ For more information about TypeScript in Cypress, see [Cypress & TypeScript](htt
 
 # Usage
 
+### Accessibility tests
+We are using [cypress-axe](https://github.com/component-driven/cypress-axe) for accessibility testing.
+
+We recommend putting your config in the `cypress/axe.ts` file.
+
+The reporter configuration can be found in the `cypress/axe-reporter.ts` file.
+
+
+Sample `config file`:
+```ts
+const AXE_CONFIG = {
+  runOnly: {
+    type: 'tag',
+    values: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa', 'section508'],
+  },
+  rules: {
+    'color-contrast': { enabled: false } // this rule will be ignored
+  }
+}
+
+export default AXE_CONFIG;
+```
+
+Sample usage:
+- Using settings from the config file
+```ts
+//import config files
+import AXE_CONFIG from "../../../axe";
+import terminalLog from "../../../axe-reporter";
+//...
+    cy.injectAxe();
+    cy.checkA11y(null, AXE_CONFIG, terminalLog);
+//...
+```
+- Manually setting the config
+
+```ts
+//import config file
+import terminalLog from "../../../axe-reporter";
+//...
+cy.checkA11y(
+  null,
+  {
+    runOnly: {
+      type: 'tag',
+      values: ['wcag2aa']
+    },
+    rules: {
+      'color-contrast': { enabled: false } // this rule will be ignored
+    }
+  },
+  terminalLog
+);
+//...
+```
+
+The report will be created under `build/axe/axe-report.json`
+
+For more details, refer to the following resources:
+- [Documentation](https://www.deque.com/axe/core-documentation/api-documentation/)
+
 ### Cookies
 We can open pages with some predefined cookies.
 First define cookie in `data/cookies.ts`
@@ -204,6 +265,14 @@ Test usage:
 import { COOKIE_CONSENT } from '../../data/cookies';
 cy.setCookies([COOKIE_CONSENT]);
 cy.visit(PAGES.COMPONENTS);
+```
+
+### Cypress-Real-Events [documentation](https://github.com/dmtrKovalenko/cypress-real-events)
+Fires a real native events.
+
+Example:
+```ts
+cy.get('button').realHover({ position: 'bottomLeft' }); // hovers over the bottom left corner of button
 ```
 
 ### Filtering out console errors
