@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "snapshot": {
+    "widths": [
+      375,
+      800,
+      1280
+    ]
+  },
+  "discovery": {
+    "networkIdleTimeout": 750,
+    "disableCache": true
+  }
+}

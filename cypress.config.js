@@ -51,7 +51,7 @@ module.exports = defineConfig({
       });
 
       const environmentName = config.env.environmentName || 'local';
-      const environmentFilename = `./cypress/config/environments/${environmentName}.env.json`;
+      const environmentFilename = `./cypress/environments/${environmentName}.env.json`;
 
       try {
         console.log('====== Loading %s', environmentFilename, 'file ======');

@@ -1,8 +1,9 @@
 export const ACCESSIBILITY = {
-  HOMEPAGE: '/',
   CAREERS: '/careers',
+  HOMEPAGE: '/',
 };
 
 export const PAGES = {
+  CONTACT_US: '/contact-us',
   HOMEPAGE: '/',
 };

@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import './commands';
+import '@percy/cypress';
 import 'cypress-axe';
 import 'cypress-iframe';
 import 'cypress-real-events/support';

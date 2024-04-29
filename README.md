@@ -13,7 +13,7 @@ npm install
 
 # Environment files
 In this project, we use environment configuration files to manage settings that may vary between different environments (like dev, stage, prod). 
-These files are located at `cypress/config/environments/` and contain placeholders for keys, credentials, and other environment-specific values.
+These files are located at `cypress/environments/` and contain placeholders for keys, credentials, and other environment-specific values.
 
 Each environment file is a JSON file with a structure like this:
 ```json
@@ -355,6 +355,54 @@ import { COOKIE_BANNER, NAVIGATION } from '../../data/selectors';
         .should('be.visible');
 //...
 ```
+
+### Visual tests
+For visual comparison, we are using [percy](https://docs.percy.io/docs).
+
+We are using `.percy.json` file as our global config.
+
+To authenticate project with Percy, you need to provide Percy token. You have to log in to https://percy.io, project token you can find in Project settings.
+Open your terminal and navigate to your project's directory.
+Use the following command to set the PERCY_TOKEN environment variable with Percy token:
+
+Windows:    
+`$Env:PERCY_TOKEN = "token"`
+
+MacOS, Linux (also Windows Bash console):    
+`export PERCY_TOKEN=token`
+
+Dealing with lazy loading:
+```ts
+cy.visit('https://example.com')
+    .scrollTo('bottom',{
+        duration: 1000
+    });
+```
+Ignoring some elements:
+```ts
+cy.percySnapshot("Region ignoring", {
+      percyCSS: "iframe {display: none; }"
+  });
+```
+Replacing dynamic text (e.g. search result titles):
+```ts
+cy.get('#elementID').each((title) =>{
+    cy.wrap(title).invoke('text', 'Lorem ipsum');
+});
+```
+Replacing images:
+```ts
+cy.get('#elementID').each((image) => {
+    cy.wrap(image).invoke('attr', 'src', 'https://image.url.com');
+});
+```
+Report can be found at [percy projects](https://percy.io/) page.
+
+Please note that Percy only captures screenshots when run in command line mode. It does not capture screenshots in GUI mode.
+
+More details here:
+- [documentation](https://docs.percy.io/docs/cypress)
+- [global configuration](https://docs.percy.io/docs/sdk-configuration)
 
 # Knowledge Base
 

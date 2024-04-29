@@ -12,5 +12,5 @@ node_modules/
 build/
 
 # Environment variables
-cypress/config/environments/*
-!cypress/config/environments/.*
+cypress/environments/*
+!cypress/environments/.*
