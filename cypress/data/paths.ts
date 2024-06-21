@@ -1,5 +1,6 @@
 export const ACCESSIBILITY = {
   CAREERS: '/careers',
+  CONTACT_US: '/contact-us',
   HOMEPAGE: '/',
 };
 
