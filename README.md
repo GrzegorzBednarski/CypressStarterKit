@@ -246,6 +246,75 @@ The report will be created under `build/axe/axe-report.json`
 For more details, refer to the following resources:
 - [Documentation](https://www.deque.com/axe/core-documentation/api-documentation/)
 
+### Analytics
+We have two custom Cypress commands that allow us to verify if spy is called with a given object.
+
+The first command, `pushDataLayer`, starts spying on dataLayer events and needs to be used before the second command. You can skip using it if you are only checking pageLoad analytics.
+
+The second command, `checkAnalytics`, compares the expected results with the data from dataLayer.
+
+Example usage:
+```ts
+it('Check analytics after click at logo', () => {
+   cy.visit('http://www.example.com').pushDataLayer();
+   cy.get('#logo').click()
+   cy.checkAnalytics('/clicks/logo');
+});
+```
+In the example above, we first visit a web page and use the `pushDataLayer` command to start spying on dataLayer events. Then, we perform any necessary actions for the test. Finally, we use the `checkAnalytics` command, passing the path to the file with expected results located under `fixtures/analytics`
+
+Example fixture file with expected results:
+```json
+{
+  "event": "pageEvent",
+  "actionType": "click",
+  "clickType": "internal",
+  "pageElement": {
+    "siteSection": "MastHead TopNav",
+    "elementLayer1": "top-navigation",
+    "elementLayer2": "image",
+    "itemIdentifier": "Brand logo"
+  }
+}
+```
+If you have dynamic elements in your expected results (e.g., URL or element name), you can replace them with placeholders. Multiple elements can be passed in an array.
+
+Example fixture file with dynamic elements:
+```json
+{
+  "event": "pageEvent",
+  "actionType": "click",
+  "clickType": "internal",
+  "pageElement": {
+    "siteSection": "MastHead MegaMenu",
+    "elementLayer1": "snippet reference-megamenu-v2-tablet-variant-disabled",
+    "elementLayer2": "megamenu",
+    "elementLayer3": "richtext",
+    "itemIdentifier": "%NAME%",
+    "internalDestination": "%URL%"
+  }
+}
+```
+Usage:
+```ts
+  it('Check analytics after click at link with dynamic title', () => {
+    cy.get('a.dynamicTitle')
+        .trigger('click')
+        .invoke('attr', 'href')
+        .then(url => {
+            cy.get('a.dynamicTitle')
+                .invoke('text')
+                .then(title => {
+                    cy.checkAnalytics('/clicks/dynamic-title', [
+                        { '%URL%': url },
+                        { '%NAME%': title },
+                    ]);
+                });
+        });
+});
+```
+In the example above, we simulate a click on a link with a dynamic title. We extract the URL and title, and then use the `checkAnalytics` command, passing the path to the file with expected results and an array of replacements for the dynamic elements.
+
 ### Cookies
 We can open pages with some predefined cookies.
 First define cookie in `data/cookies.ts`

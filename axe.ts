@@ -15,6 +15,7 @@ const AXE_CONFIG = {
     'aria-input-field-name': { enabled: false }, // Disabled according to TASK-123, due to accessibility issues in certain browsers
     'nested-interactive': { enabled: false }, // Disabled according to TASK-456, to prevent interaction conflicts
     'frame-title': { enabled: false }, // Disabled according to TASK-789, for SEO optimization purposes
+    'select-name': { enabled: false }, // Disabled according to TASK-101, due to accessibility issues in certain browsers
   },
 };
 

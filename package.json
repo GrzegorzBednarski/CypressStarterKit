@@ -26,6 +26,7 @@
     "cy:open:prod": "npx cypress open --env environmentName=prod",
     "cy:run:prod": "npx cypress run --env environmentName=prod",
     "cy:run:accessibility:prod": "cypress run --spec 'cypress/e2e/accessibility/**/*' --env environmentName=prod",
+    "cy:run:analytics:prod": "cypress run --spec 'cypress/e2e/analytics/**/*' --env environmentName=prod",
     "cy:run:functional:prod": "cypress run --spec 'cypress/e2e/functional/**/*' --env environmentName=prod",
     "cy:run:visual:prod": "npx percy exec -- cypress run --spec 'cypress/e2e/visual/**/*' --env environmentName=prod --browser chrome"
   },
