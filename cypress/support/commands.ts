@@ -23,6 +23,41 @@ declare namespace Cypress {
     checkAnalytics(fixture: string, replacementValues?): void;
 
     /**
+     * Clears all session storage, local storage and cookies.
+     *
+     * @memberof Cypress.Chainable
+     * @example
+     * ```
+     * cy.clearSession();
+     * ```
+     */
+    clearSession(): void;
+
+    /**
+     * Intercept a request with the specified method and URL, and respond with a fixture.
+     *
+     * @memberof Chainable
+     * @example
+     *    cy.interceptWithFixture('GET', '/api/endpoint', '/fixture.json', 'myAlias');
+     *    cy.interceptWithFixture('GET', '\\/api\\/endpoint.*', '/fixture_regexp.json', 'myAliasRegexp', true);
+     *
+     * @param {string} method - The HTTP method of the request to intercept (e.g., 'GET', 'POST')
+     * @param {string} url - The URL or URL pattern of the request to intercept
+     * @param {string} fixturePath - Path to the fixture file (under /intercept)
+     * @param {string} alias - Alias for the intercepted request
+     * @param {boolean} [regexp] - Optional flag to indicate if the URL should be treated as a regular expression
+     * @returns {void}
+     */
+    interceptWithFixture(
+      method: string,
+      url: string,
+      fixturePath: string,
+      alias: string,
+      regexp?: boolean,
+      statusCode?: number,
+    ): void;
+
+    /**
      * Load a fixture file and replace specified keys with given values
      *
      * @example
@@ -75,6 +110,42 @@ Cypress.Commands.add('checkAnalytics', (fixture: string, replacementValues) => {
     },
   );
 });
+
+Cypress.Commands.add('clearSession', () => {
+  cy.clearCookies();
+  cy.clearLocalStorage();
+  cy.window().then(win => {
+    win.sessionStorage.clear();
+  });
+});
+
+/* eslint-disable @typescript-eslint/default-param-last */
+Cypress.Commands.add(
+  'interceptWithFixture',
+  (method, urlPattern, fixturePath, alias, regexp = false, statusCode) => {
+    const urlMatcher = regexp ? new RegExp(urlPattern) : urlPattern;
+
+    cy.fixture(`/intercept${fixturePath}`).then(data => {
+      cy.intercept(
+        {
+          method,
+          url: urlMatcher,
+          headers: {},
+        },
+        req => {
+          req.reply(res => {
+            if (statusCode) {
+              res.send(statusCode, data);
+            } else {
+              res.send(data);
+            }
+          });
+        },
+      ).as(alias);
+    });
+  },
+);
+/* eslint-enable @typescript-eslint/default-param-last */
 
 Cypress.Commands.add(
   'loadFixtureWithReplacements',

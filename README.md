@@ -332,8 +332,7 @@ export const COOKIE_CONSENT: Cypress.Cookie = {
 Test usage:
 ```ts
 import { COOKIE_CONSENT } from '../../data/cookies';
-cy.setCookies([COOKIE_CONSENT]);
-cy.visit(PAGES.COMPONENTS);
+cy.visitWithCookies(PAGES.COMPONENTS, [COOKIE_CONSENT]);
 ```
 
 ### Cypress-Real-Events [documentation](https://github.com/dmtrKovalenko/cypress-real-events)
@@ -368,6 +367,43 @@ cy.frameLoaded('#iFrameID');
         getBody().percySnapshot('Snapshot_Name');
     })
 ```
+
+### Intercepting requests with fixtures
+In addition to the features described above, this project includes a custom Cypress command for intercepting HTTP requests and responding with data from a fixture file. This can be useful for testing different server responses without having to modify your backend.
+
+The interceptWithFixture command takes the following parameters:  
+
+`method`: The HTTP method of the request to intercept (e.g., 'GET', 'POST')  
+`url`: The URL or URL pattern of the request to intercept  
+`fixturePath`: Path to the fixture file (under /intercept)  
+`alias`: Alias for the intercepted request  
+`regexp`: Optional flag to indicate if the URL should be treated as a regular expression  
+`statusCode`: Optional status code to send with the response
+
+Here's an example of how you can use this command in your tests:
+```ts
+cy.interceptWithFixture(
+    'GET',
+    '/api/my/training/summary',
+    '/summary.json',
+    'myTrainingSummary',
+);
+//...
+cy.wait('@myTrainingSummary');
+```
+In this example, we're intercepting a `GET` request to `'/api/my/training/summary'` and responding with the data from the `'/summary.json'` fixture file. We're also assigning an `alias` to this intercepted request for later reference in our tests.
+
+The fixture file should contain the data you want to respond with. For example, the `'/summary.json'` file might look like this:
+```json
+{
+  "totalAssigned": 10,
+  "totalCompleted": 9,
+  "totalInProgress": 1,
+  "totalOverdue": 0,
+  "totalNotStarted": 0
+}
+```
+Please note that the path to the fixture file is relative to the `fixtures/intercept` directory. Also, if you set the regexp parameter to true, the url parameter will be treated as a regular expression.
 
 ### Passwords (Environment variables)
 In this project, we use environment variables to manage sensitive data, such as usernames, passwords, and API keys. 

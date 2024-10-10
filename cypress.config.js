@@ -4,7 +4,8 @@ const fse = require('fs-extra');
 module.exports = defineConfig({
   e2e: {
     defaultCommandTimeout: 10000,
-    pageLoadTimeout: 25000,
+    pageLoadTimeout: 15000,
+    requestTimeout: 15000,
     viewportWidth: 1280,
     viewportHeight: 1024,
     screenshotsFolder: 'build/screenshots',
