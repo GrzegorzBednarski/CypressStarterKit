@@ -8,8 +8,9 @@
 # NPM
 node_modules/
 
-# Reports
+# Reports etc
 build/
+downloads/
 
 # Environment variables
 cypress/environments/*

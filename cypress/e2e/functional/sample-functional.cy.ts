@@ -16,7 +16,8 @@ describe('Sample functional', () => {
   });
 
   it('Cookie banner will not appear when we open page with cookie', () => {
-    cy.visitWithCookies(PAGES.HOMEPAGE, [COOKIE_CONSENT]);
+    cy.setCookies([COOKIE_CONSENT]);
+    cy.visit(PAGES.HOMEPAGE);
     cy.get(COOKIE_PROMPT.COOKIE_BANNER).should('not.exist');
   });
 });

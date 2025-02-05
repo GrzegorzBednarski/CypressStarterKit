@@ -1,33 +1,38 @@
 {
   "devDependencies": {
-    "@percy/cli": "1.30.0",
-    "@percy/cypress": "3.1.3-beta.0",
+    "@cypress-audit/lighthouse": "^1.4.2",
+    "@percy/cli": "1.30.7",
+    "@percy/cypress": "3.1.3",
     "@typescript-eslint/eslint-plugin": "7.18.0",
     "@typescript-eslint/parser": "7.18.0",
-    "axe-core": "^4.10.0",
-    "cypress": "13.15.0",
-    "cypress-axe": "1.5.0",
-    "cypress-real-events": "1.13.0",
+    "axe-core": "4.10.2",
+    "cypress": "13.17.0",
+    "cypress-axe": "1.6.0",
+    "cypress-iframe": "1.0.1",
+    "cypress-real-events": "1.14.0",
     "eslint": "8.57.0",
     "eslint-config-airbnb": "19.0.4",
     "eslint-config-airbnb-typescript": "18.0.0",
     "eslint-config-prettier": "9.1.0",
     "eslint-plugin-cypress": "3.5.0",
     "eslint-plugin-import": "2.31.0",
-    "fs-extra": "11.2.0",
-    "husky": "9.1.6",
-    "lint-staged": "15.2.10",
-    "prettier": "3.3.3",
-    "typescript": "5.6.3"
+    "eslint-plugin-no-only-tests": "^3.3.0",
+    "fs-extra": "11.3.0",
+    "husky": "9.1.7",
+    "lighthouse": "12.3.0",
+    "lint-staged": "15.4.3",
+    "prettier": "3.4.2",
+    "typescript": "5.7.3"
   },
   "scripts": {
     "cy:eslint": "eslint **/*.{js,ts} --fix",
     "cy:prettier": "prettier --write '**/*.{js,ts}'",
     "cy:open:prod": "npx cypress open --env environmentName=prod",
-    "cy:run:prod": "npx cypress run --env environmentName=prod",
-    "cy:run:accessibility:prod": "cypress run --spec 'cypress/e2e/accessibility/**/*' --env environmentName=prod",
-    "cy:run:analytics:prod": "cypress run --spec 'cypress/e2e/analytics/**/*' --env environmentName=prod",
-    "cy:run:functional:prod": "cypress run --spec 'cypress/e2e/functional/**/*' --env environmentName=prod",
+    "cy:run:prod": "npx cypress run --env environmentName=prod --browser chrome",
+    "cy:run:accessibility:prod": "cypress run --spec 'cypress/e2e/accessibility/**/*' --env environmentName=prod --browser chrome",
+    "cy:run:analytics:prod": "cypress run --spec 'cypress/e2e/analytics/**/*' --env environmentName=prod --browser chrome",
+    "cy:run:functional:prod": "cypress run --spec 'cypress/e2e/functional/**/*' --env environmentName=prod --browser chrome",
+    "cy:run:lighthouse:prod": "cypress run --spec 'cypress/e2e/lighthouse/**/*' --env environmentName=prod --browser chrome",
     "cy:run:visual:prod": "npx percy exec -- cypress run --spec 'cypress/e2e/visual/**/*' --env environmentName=prod --browser chrome"
   },
   "lint-staged": {
@@ -35,8 +40,5 @@
       "prettier --write",
       "eslint --fix"
     ]
-  },
-  "dependencies": {
-    "cypress-iframe": "^1.0.1"
   }
 }

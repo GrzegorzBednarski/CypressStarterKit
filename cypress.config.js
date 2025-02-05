@@ -1,5 +1,8 @@
+/* eslint-disable import/no-extraneous-dependencies */
 const { defineConfig } = require('cypress');
+const { lighthouse, prepareAudit } = require('@cypress-audit/lighthouse');
 const fse = require('fs-extra');
+/* eslint-enable import/no-extraneous-dependencies */
 
 module.exports = defineConfig({
   e2e: {
@@ -17,11 +20,28 @@ module.exports = defineConfig({
     chromeWebSecurity: false,
     env: {},
     setupNodeEvents(on, config) {
-      on('before:browser:launch', () => {
+      on('before:browser:launch', (browser, launchOptions) => {
         fse.removeSync('build/');
+        prepareAudit(launchOptions);
+        return launchOptions;
       });
 
       on('task', {
+        lighthouse: lighthouse(async lighthouseReport => {
+          // eslint-disable-next-line import/no-extraneous-dependencies
+          const { ReportGenerator } = await import(
+            'lighthouse/report/generator/report-generator.js'
+          );
+          const originalUrl = lighthouseReport.lhr.requestedUrl;
+          const cleanedUrl = originalUrl.replace(/^(https?:\/\/)?(www\.)?/, '');
+          const safeUrl = cleanedUrl.replace(/[^a-z0-9]/gi, '_');
+          const reportPath = `build/lighthouse/${safeUrl}-lighthouse-report.html`;
+          fse.outputFile(
+            reportPath,
+            ReportGenerator.generateReport(lighthouseReport.lhr, 'html'),
+          );
+        }),
+
         log(message) {
           console.log(message);
           return null;

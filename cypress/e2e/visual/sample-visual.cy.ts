@@ -3,7 +3,8 @@ import { COOKIE_CONSENT } from '../../data/cookies';
 
 describe('Sample visual', () => {
   it('Contact Us', () => {
-    cy.visitWithCookies(PAGES.CONTACT_US, [COOKIE_CONSENT]);
+    cy.setCookies([COOKIE_CONSENT]);
+    cy.visit(PAGES.CONTACT_US);
     cy.percySnapshot('Contact Us');
   });
 });

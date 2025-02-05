@@ -11,7 +11,7 @@
     "plugin:import/typescript",
     "prettier"
   ],
-  "plugins": ["@typescript-eslint"],
+  "plugins": ["@typescript-eslint", "no-only-tests"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "tsconfigRootDir": ".",
@@ -19,8 +19,9 @@
   },
   "rules": {
     "cypress/no-force": "error",
-    "import/prefer-default-export": "off",
-    "import/no-extraneous-dependencies": "off",
-    "no-console": "off"
+    "import/no-extraneous-dependencies": "warn",
+    "import/extensions": "off",
+    "no-console": "off",
+    "no-only-tests/no-only-tests": "error"
   }
 }
